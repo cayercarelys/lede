@@ -55,5 +55,4 @@ jobs:
       env:
         DOWNSTREAM_BRANCH: master        
       run: git push origin $DOWNSTREAM_BRANCH
-      env:
-      GITHUB_TOKEN: ${{ secrets.action_token }}
+           GITHUB_TOKEN: ${{ secrets.action_token }}
