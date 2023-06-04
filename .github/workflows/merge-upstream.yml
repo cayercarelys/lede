@@ -53,6 +53,6 @@ jobs:
 
     - name: Push Commits
       env:
-        DOWNSTREAM_BRANCH: master        
+        DOWNSTREAM_BRANCH: master
+        GITHUB_TOKEN: ${{ secrets.action_token }}
       run: git push origin $DOWNSTREAM_BRANCH
-           GITHUB_TOKEN: ${{ secrets.action_token }}
