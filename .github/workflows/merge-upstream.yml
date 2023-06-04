@@ -13,8 +13,15 @@ on:
     branches:
       - master
   schedule:
-    - cron: 30 19 * 1 *
+    - cron: 30 19 5 * *
 
+permissions:
+  deployments: write
+  contents: write
+  statuses: write
+  actions: write
+  checks: read    
+  
 jobs:
 
   merge:
