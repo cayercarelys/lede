@@ -1,29 +1,32 @@
 #
-# Copyright (c) 2019-2020 P3TERX <https://p3terx.com>
-#
-# This is free software, licensed under the MIT License.
-# See /LICENSE for more information.
-#
-# https://github.com/P3TERX/Actions-OpenWrt
-# Description: Build OpenWrt using GitHub Actions
+# This is free software, lisence use MIT.
+# 
+# Copyright (C) 2019 P3TERX <https://p3terx.com>
+# Copyright (C) 2019 KFERMercer <KFER.Mercer@gmail.com>
+# 
+# <https://github.com/KFERMercer/OpenWrt-CI>
 #
 
-name: Build OpenWrt
+name: OpenWrt-CI
 
 on:
-  repository_dispatch:
-  workflow_dispatch:
-    inputs:
-      ssh:
-        description: 'Debugging with tmate'
-        required: false
-        default: 'false'
+  push:
+    branches: 
+      - master
+  schedule:
+    - cron: 0 20 5 * *
+  # release:
+  #   types: [published]
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
-           
+    runs-on: ubuntu-latest
+
     steps:
+    - name: Checkout
+      uses: actions/checkout@v3.1.0
+      with:
+        ref: master
 
     - name: Free Disk Space (Ubuntu)
       uses: jlumbroso/free-disk-space@main
@@ -39,18 +42,10 @@ jobs:
         haskell: true
         large-packages: true
         swap-storage: true
-        
-    - name: Checkout
-      uses: actions/checkout@v3.1.0  
-      
-    - name: Disk space
-      run: |
-           echo "Free space:"
-           df -h
-      
+    
     - name: Initialization environment
       env:
-          DEBIAN_FRONTEND: noninteractive
+        DEBIAN_FRONTEND: noninteractive
       run: |
           docker rmi `docker images -q`
           sudo -E rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d /usr/local/lib/android
@@ -63,6 +58,9 @@ jobs:
           sudo -E apt -y autoremove --purge
           sudo -E apt clean
           sudo -E timedatectl set-timezone "Asia/Shanghai"
+      
+    - name: Checkout OpenWrt
+      uses: actions/checkout@v3.1.0
 
     - name: 同步最新的源码
       run: |
