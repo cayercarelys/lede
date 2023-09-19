@@ -1,27 +1,28 @@
 #
-# This is free software, lisence use MIT.
-# 
-# Copyright (C) 2019 P3TERX <https://p3terx.com>
-# Copyright (C) 2020 KFERMercer <KFER.Mercer@gmail.com>
-# 
-# <https://github.com/KFERMercer/OpenWrt-CI>
+# Copyright (c) 2019-2020 P3TERX <https://p3terx.com>
+#
+# This is free software, licensed under the MIT License.
+# See /LICENSE for more information.
+#
+# https://github.com/P3TERX/Actions-OpenWrt
+# Description: Build OpenWrt using GitHub Actions
 #
 
-name: OpenWrt-CI
+name: Build OpenWrt
 
 on:
-  push:
-    branches: 
-      - master
-  # schedule:
-  #   - cron: 0 20 * * *
-  release:
-    types: [published]
+  repository_dispatch:
+  workflow_dispatch:
+    inputs:
+      ssh:
+        description: 'Debugging with tmate'
+        required: false
+        default: 'false'
 
 jobs:
   build:
     runs-on: ubuntu-20.04
-
+           
     steps:
 
     - name: Free Disk Space (Ubuntu)
@@ -38,14 +39,14 @@ jobs:
         haskell: true
         large-packages: true
         swap-storage: true
-      
+        
     - name: Checkout
       uses: actions/checkout@v3.1.0  
       
     - name: Disk space
       run: |
-          echo "Free space:"
-          df -h
+           echo "Free space:"
+           df -h
       
     - name: Initialization environment
       env:
