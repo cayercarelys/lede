@@ -60,7 +60,7 @@ jobs:
 
     - name: 同步最新的源码
       run: |
-          git config --global remote add openwrt https://github.com/coolsnowwolf/lede.git
+          git remote add openwrt https://github.com/coolsnowwolf/lede.git --ff-only
           git pull openwrt master
           git remote -v
       
