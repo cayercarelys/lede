@@ -23,15 +23,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3.1.0
-        with:
-          ref: master
+    - name: Checkout
+      uses: actions/checkout@v3.1.0
+      with:
+        ref: master
 
-      - name: Initialization environment
-        env:
-          DEBIAN_FRONTEND: noninteractive
-        run: |
+    - name: Initialization environment
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
           docker rmi `docker images -q`
           sudo -E rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d /usr/local/lib/android
           sudo -E apt-mark hold grub-efi-amd64-signed
@@ -44,8 +44,8 @@ jobs:
           sudo -E apt clean
           sudo -E timedatectl set-timezone "Asia/Shanghai"
       
-      - name: Checkout OpenWrt
-        uses: actions/checkout@v3.1.0
+    - name: Checkout OpenWrt
+      uses: actions/checkout@v3.1.0
 
     - name: 同步最新的源码
       run: |
